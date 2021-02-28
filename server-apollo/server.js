@@ -2,9 +2,13 @@ const express = require('express');
 const models = require('../models');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const { ApolloServer, gql } = require("apollo-server-express");
+const { ApolloServer } = require("apollo-server-express");
 const Lyric = mongoose.model('lyric');
 const Song = mongoose.model('song');
+const { loadSchemaSync } = require('@graphql-tools/load');
+const { addResolversToSchema } = require('@graphql-tools/schema');
+const { GraphQLFileLoader } = require('@graphql-tools/graphql-file-loader');
+const { join } = require('path');
 
 const app = express();
 
@@ -22,33 +26,17 @@ mongoose.connection
 
 app.use(bodyParser.json());
 
-const typeDefs = gql`
-   type Query {
-      songs: [Song]
-      song(id: ID!): Song
-      lyric(id: ID!): Lyric
-   }
+const schema = loadSchemaSync(join(__dirname, './typeDefs.graphql'), {
+   loaders: [
+       new GraphQLFileLoader()
+   ]
+});
 
-   type Mutation {
-      addSong(title: String): Song
-      addLyricToSong(content: String): Song
-      likeLyric(id: ID!): Lyric
-      deleteSong(id: ID!): Song
-   }
-
-   type Lyric {
-      id: ID
-      likes: Int
-      content: String
-      son: Song
-   }
-
-   type Song {
-      id: ID
-      title: String
-      lyrics: [Lyric]
-   }
-`;
+// const schema5 = await loadSchema('./src/**/*.graphql', { // load from multiple files using glob
+//    loaders: [
+//        new GraphQLFileLoader()
+//    ]
+// });
 
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves books from the "books" array above.
@@ -80,9 +68,14 @@ const resolvers = {
    }
  };
 
+ const schemaWithResolvers = addResolversToSchema({
+   schema,
+   resolvers,
+});
+
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({schema: schemaWithResolvers});
 server.applyMiddleware({ app });
 
 const webpackMiddleware = require('webpack-dev-middleware');

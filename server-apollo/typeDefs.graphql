@@ -1,0 +1,25 @@
+type Query {
+   songs: [Song]
+   song(id: ID!): Song
+   lyric(id: ID!): Lyric
+}
+
+type Mutation {
+   addSong(title: String): Song
+   addLyricToSong(content: String): Song
+   likeLyric(id: ID!): Lyric
+   deleteSong(id: ID!): Song
+}
+
+type Lyric {
+   id: ID
+   likes: Int
+   content: String
+   son: Song
+}
+
+type Song {
+   id: ID
+   title: String
+   lyrics: [Lyric]
+}

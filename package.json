@@ -28,6 +28,7 @@
     "express-graphql": "^0.6.1",
     "express-session": "^1.15.0",
     "graphql": "^15.5.0",
+    "graphql-tools": "^7.0.4",
     "html-webpack-plugin": "^2.26.0",
     "lodash": "^4.17.4",
     "mongoose": "^5.11.18",
@@ -41,5 +42,6 @@
     "style-loader": "^0.13.1",
     "webpack": "^2.2.0",
     "webpack-dev-middleware": "^1.9.0"
-  }
+  },
+  "devDependencies": {}
 }
