@@ -1,5 +1,5 @@
 const express = require('express');
-const models = require('./models');
+const models = require('../models');
 const expressGraphQL = require('express-graphql');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -8,7 +8,7 @@ const schema = require('./schema/schema');
 const app = express();
 
 // Replace with your mongoLab URI
-const MONGO_URI = '';
+const MONGO_URI = 'mongodb+srv://lorantd:study@lyrical-graphql.hqgdo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 if (!MONGO_URI) {
   throw new Error('You must provide a MongoLab URI');
 }
