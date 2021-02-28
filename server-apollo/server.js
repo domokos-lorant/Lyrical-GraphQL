@@ -2,7 +2,7 @@ const express = require('express');
 const models = require('../models');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const ApolloServer = require("apollo-server");
+const { ApolloServer, gql } = require("apollo-server-express");
 const Lyric = mongoose.model('lyric');
 const Song = mongoose.model('song');
 
@@ -83,10 +83,13 @@ const resolvers = {
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
 const server = new ApolloServer({ typeDefs, resolvers });
+server.applyMiddleware({ app });
 
 const webpackMiddleware = require('webpack-dev-middleware');
 const webpack = require('webpack');
 const webpackConfig = require('../webpack.config.js');
 app.use(webpackMiddleware(webpack(webpackConfig)));
+
+console.log(`GraphQL path: ${server.graphqlPath}`);
 
 module.exports = app;
