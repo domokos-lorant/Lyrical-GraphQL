@@ -16,6 +16,8 @@ const SongSchema = new Schema<Document<any> & { lyrics: any }>({
 SongSchema.statics.addLyric = function(id, content) {
   const Lyric = mongoose.model<Document<any> & { likes: number }>('lyric');
 
+  console.log(`Id: ${id}, lyric: ${content}`);
+  
   return this.findById(id)
     .then(song => {
       const lyric = new Lyric({ content, song });
