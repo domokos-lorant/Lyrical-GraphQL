@@ -1,4 +1,4 @@
-const app = require('./server-apollo/server');
+import app from './server-apollo/server';
 
 app.listen(4001, () => {
   console.log('Listening');

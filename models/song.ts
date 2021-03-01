@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
+import mongoose, { Document } from 'mongoose';
 const Schema = mongoose.Schema;
 
-const SongSchema = new Schema({
+const SongSchema = new Schema<Document<any> & { lyrics: any }>({
   title: { type: String },
   user: {
     type: Schema.Types.ObjectId,
@@ -14,13 +14,13 @@ const SongSchema = new Schema({
 });
 
 SongSchema.statics.addLyric = function(id, content) {
-  const Lyric = mongoose.model('lyric');
+  const Lyric = mongoose.model<Document<any> & { likes: number }>('lyric');
 
   return this.findById(id)
     .then(song => {
-      const lyric = new Lyric({ content, song })
-      song.lyrics.push(lyric)
-      return Promise.all([lyric.save(), song.save()])
+      const lyric = new Lyric({ content, song });
+      song!.lyrics.push(lyric);
+      return Promise.all([lyric.save(), song!.save()])
         .then(([lyric, song]) => song);
     });
 }
@@ -28,7 +28,7 @@ SongSchema.statics.addLyric = function(id, content) {
 SongSchema.statics.findLyrics = function(id) {
   return this.findById(id)
     .populate('lyrics')
-    .then(song => song.lyrics);
+    .then(song => song!.lyrics);
 }
 
-mongoose.model('song', SongSchema);
+export const Song: any = mongoose.model('song', SongSchema);

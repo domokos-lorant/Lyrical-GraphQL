@@ -1,14 +1,18 @@
-const express = require('express');
-const models = require('../models');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const { ApolloServer } = require("apollo-server-express");
-const Lyric = mongoose.model('lyric');
-const Song = mongoose.model('song');
-const { loadSchemaSync } = require('@graphql-tools/load');
-const { addResolversToSchema } = require('@graphql-tools/schema');
-const { GraphQLFileLoader } = require('@graphql-tools/graphql-file-loader');
-const { join } = require('path');
+import express from 'express';
+import { Lyric, Song } from '../models';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+import { ApolloServer } from "apollo-server-express";
+import { loadSchemaSync } from '@graphql-tools/load';
+import { addResolversToSchema } from '@graphql-tools/schema';
+import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
+import { join } from 'path';
+import webpackMiddleware from 'webpack-dev-middleware';
+import webpack from 'webpack';
+import webpackConfig from '../webpack.config';
+
+// const Lyric: any = mongoose.model('lyric');
+// const Song: any = mongoose.model('song');
 
 const app = express();
 
@@ -42,27 +46,27 @@ const schema = loadSchemaSync(join(__dirname, './typeDefs.graphql'), {
 // schema. This resolver retrieves books from the "books" array above.
 const resolvers = {
    Query: {
-     songs(parent, args) {
+     songs(_parent: any, _args: any) {
       return Song.find({});
      },
-     song(parent, { id }) {
+     song(_parent: any, { id }: any) {
       return Song.findById(id);
      },
-     lyric(parent, { id }) {
+     lyric(parent: any, { id }: any) {
       return Lyric.findById(id);
      }
    },
    Mutation: {
-     addSong(parent, { title }) {
+     addSong(parent: any, { title }: any) {
       return (new Song({ title })).save();
      },
-     addLyricToSong(parent, { content }) {
+     addLyricToSong(parent: any, { songId, content }: any) {
       return Song.addLyric(songId, content);
      },
-     likeLyric(parent, { id }) {
+     likeLyric(parent: any, { id }: any) {
       return Lyric.like(id);
      },
-     deleteSong(parent, { id }) {
+     deleteSong(parent: any, { id }: any) {
       return Song.remove({ _id: id });
      }
    }
@@ -78,11 +82,9 @@ const resolvers = {
 const server = new ApolloServer({schema: schemaWithResolvers});
 server.applyMiddleware({ app });
 
-const webpackMiddleware = require('webpack-dev-middleware');
-const webpack = require('webpack');
-const webpackConfig = require('../webpack.config.js');
+
 app.use(webpackMiddleware(webpack(webpackConfig)));
 
 console.log(`GraphQL path: ${server.graphqlPath}`);
 
-module.exports = app;
+export default app;
