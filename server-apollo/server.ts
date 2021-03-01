@@ -10,6 +10,7 @@ import { MONGO_URI } from '../connectionString';
 
 const app = express();
 
+// Configure Mongo.
 if (!MONGO_URI) {
   throw new Error('You must provide a MongoLab URI');
 }
@@ -20,16 +21,12 @@ mongoose.connection
     .once('open', () => console.log('Connected to MongoLab instance.'))
     .on('error', error => console.log('Error connecting to MongoLab:', error));
 
-app.use(bodyParser.json());
-
-// The ApolloServer constructor requires two parameters: your schema
-// definition and your set of resolvers.
+// Configure Apollo Server.
 const server = new ApolloServer({schema});
 server.applyMiddleware({ app });
 
-
+// Other middleware.
+app.use(bodyParser.json());
 app.use(webpackMiddleware(webpack(webpackConfig)));
-
-console.log(`GraphQL path: ${server.graphqlPath}`);
 
 export default app;
