@@ -9,7 +9,7 @@ const client = new ApolloClient({});
 const Root = (): JSX.Element => {
    return (
       <ApolloProvider client={client}>
-         <div>Lyrical1</div>
+         <div>Lyrical</div>
       </ApolloProvider>
    );
 };
