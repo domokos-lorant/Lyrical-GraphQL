@@ -2,13 +2,18 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import { ApolloServer } from "apollo-server-express";
-import webpackMiddleware from 'webpack-dev-middleware';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpack from 'webpack';
 import schema from "./schema";
 import { MONGO_URI } from '../connectionString';
-const webpackConfig = require('../webpack.config.js');
+import path from "path";
+const webpackConfig = require('../webpack.config');
 
 const app = express();
+app.get('/', (req, res) => {
+   res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
+});
 
 // Configure Mongo.
 if (!MONGO_URI) {
@@ -27,6 +32,14 @@ server.applyMiddleware({ app });
 
 // Other middleware.
 app.use(bodyParser.json());
-app.use(webpackMiddleware(webpack(webpackConfig)));
+let compiler = webpack(webpackConfig);
+app.use(webpackDevMiddleware(compiler, 
+   {
+      publicPath: webpackConfig.output.publicPath, 
+      stats: { colors: true }
+   }
+));
+app.use(webpackHotMiddleware(compiler));
+app.use(express.static(path.resolve(__dirname, '..', 'dist')));
 
 export default app;
