@@ -1,4 +1,4 @@
-import app from './server-apollo/server';
+import app from './server/server';
 
 app.listen(4000, () => {
   console.log('Listening on port 4000');

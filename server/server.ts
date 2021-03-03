@@ -4,9 +4,9 @@ import bodyParser from 'body-parser';
 import { ApolloServer } from "apollo-server-express";
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpack from 'webpack';
-import webpackConfig from '../webpack.config';
 import schema from "./schema";
 import { MONGO_URI } from '../connectionString';
+const webpackConfig = require('../webpack.config.js');
 
 const app = express();
 
