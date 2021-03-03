@@ -1,5 +1,5 @@
 import { IResolvers } from "graphql-tools";
-import { Lyric, Song } from '../models';
+import { Lyric, Song } from './models';
 
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves books from the "books" array above.
