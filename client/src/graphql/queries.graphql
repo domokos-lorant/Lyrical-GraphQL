@@ -1,0 +1,10 @@
+# put your queries here
+query allSongs {
+   songs {
+      id
+      title
+      # lyrics {
+      #    content
+      # }
+   }
+}

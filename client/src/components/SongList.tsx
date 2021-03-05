@@ -1,21 +1,14 @@
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
-
-const query = gql`
-   {
-      songs {
-         id
-         title
-      }
-   }
-`;
+// Todo: move operation generation closer.
+// Todo: why is TS autocomplete not working in client folder?
+import { useAllSongsQuery, AllSongsQuery } from "../../../schema/__generated__/schema.all";
 
 export default function SongList(): JSX.Element {
-   const { loading, error, data } = useQuery(query);
+   const { loading, error, data } = useAllSongsQuery();
 
    return (
       <>
-         {loading
+         {loading || !data
             ? <div>Loading...</div>
             : <ul className="collection">
                {renderSongs(data.songs)}
@@ -25,11 +18,11 @@ export default function SongList(): JSX.Element {
    );
 }
 
-function renderSongs(songs: any[]): JSX.Element[] {
-   return songs.map(song => {
+function renderSongs(songs: AllSongsQuery["songs"]): JSX.Element[] {
+   return (songs || []).map(song => {
       return (
-         <li key={song.id} className="collection-item">
-            {song.title}
+         <li key={song?.id} className="collection-item">
+            {song?.title}
          </li>
       );
    });
