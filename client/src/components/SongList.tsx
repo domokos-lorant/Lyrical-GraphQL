@@ -1,6 +1,5 @@
 import React from "react";
 // Todo: move operation generation closer.
-// Todo: why is TS autocomplete not working in client folder?
 import { useAllSongsQuery, AllSongsQuery } from "../../../schema/__generated__/schema.all";
 
 export default function SongList(): JSX.Element {

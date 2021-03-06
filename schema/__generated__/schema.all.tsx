@@ -1,4 +1,6 @@
 import { GraphQLResolveInfo } from 'graphql';
+import { SongDocument } from '../../server/models/song';
+import { LyricDocument } from '../../server/models/lyric';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -39,7 +41,7 @@ export type MutationAddSongArgs = {
 
 export type MutationAddLyricToSongArgs = {
   songId: Scalars['ID'];
-  content?: Maybe<Scalars['String']>;
+  content: Scalars['String'];
 };
 
 
@@ -124,7 +126,7 @@ export type AllSongsQueryResult = Apollo.QueryResult<AllSongsQuery, AllSongsQuer
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
 
-export type ResolverTypeWrapper<T> = Promise<T> | T;
+export type ResolverTypeWrapper<T> = Promise<T | undefined> | T | undefined;
 
 export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> = ResolverFn<TResult, TParent, TContext, TArgs>;
 
@@ -187,25 +189,25 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  Lyric: ResolverTypeWrapper<Lyric>;
+  Lyric: ResolverTypeWrapper<LyricDocument>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
-  Song: ResolverTypeWrapper<Song>;
+  Song: ResolverTypeWrapper<SongDocument>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  Lyric: Lyric;
+  Lyric: LyricDocument;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
   String: Scalars['String'];
   Mutation: {};
   Query: {};
-  Song: Song;
+  Song: SongDocument;
   Boolean: Scalars['Boolean'];
 }>;
 
@@ -219,7 +221,7 @@ export type LyricResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   addSong?: Resolver<Maybe<ResolversTypes['Song']>, ParentType, ContextType, RequireFields<MutationAddSongArgs, never>>;
-  addLyricToSong?: Resolver<Maybe<ResolversTypes['Song']>, ParentType, ContextType, RequireFields<MutationAddLyricToSongArgs, 'songId'>>;
+  addLyricToSong?: Resolver<Maybe<ResolversTypes['Song']>, ParentType, ContextType, RequireFields<MutationAddLyricToSongArgs, 'songId' | 'content'>>;
   likeLyric?: Resolver<Maybe<ResolversTypes['Lyric']>, ParentType, ContextType, RequireFields<MutationLikeLyricArgs, 'id'>>;
   deleteSong?: Resolver<Maybe<ResolversTypes['Song']>, ParentType, ContextType, RequireFields<MutationDeleteSongArgs, 'id'>>;
 }>;

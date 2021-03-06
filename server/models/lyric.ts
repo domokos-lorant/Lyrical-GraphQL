@@ -1,7 +1,21 @@
 import mongoose, { Document } from 'mongoose';
+import { Model } from 'mongoose';
+import { SongAttributes, SongDocument } from './song';
 const Schema = mongoose.Schema;
 
-const LyricSchema = new Schema({
+export interface LyricAttributes {
+   content: string;
+   likes: number;
+   song: SongDocument;
+}
+
+export interface LyricDocument extends LyricAttributes, Document<string> {}
+
+interface LyricModel extends Model<LyricDocument> {
+   like(id: string): LyricDocument;
+}
+
+const LyricSchema = new Schema<LyricDocument, LyricModel>({
   song: {
     type: Schema.Types.ObjectId,
     ref: 'song'
@@ -10,14 +24,15 @@ const LyricSchema = new Schema({
   content: { type: String }
 });
 
-LyricSchema.statics.like = function(id) {
-  const Lyric = mongoose.model<Document<any> & { likes: number }>('lyric');
-
+LyricSchema.statics.like = function(id: string): Promise<LyricDocument | undefined> {
+  //const Lyric = mongoose.model<Document<any> & { likes: number }>('lyric');
   return Lyric.findById(id)
     .then(lyric => {
-      ++lyric!.likes;
-      return lyric!.save();
+       if (lyric) {
+         ++lyric.likes;
+         return lyric.save();
+       }
     })
 }
 
-export const Lyric: any = mongoose.model('lyric', LyricSchema);
+export const Lyric = mongoose.model<LyricDocument, LyricModel>('lyric', LyricSchema);
