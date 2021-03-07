@@ -1,0 +1,4 @@
+fragment SongFields on Song {
+   id
+   title
+}

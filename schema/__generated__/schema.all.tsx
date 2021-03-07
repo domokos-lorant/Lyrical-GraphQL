@@ -1,9 +1,7 @@
 import { GraphQLResolveInfo } from 'graphql';
 import { SongDocument } from '../../server/models/song';
 import { LyricDocument } from '../../server/models/lyric';
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
-export type Maybe<T> = T | null;
+export type Maybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -78,51 +76,6 @@ export type Song = {
   lyrics?: Maybe<Array<Maybe<Lyric>>>;
 };
 
-export type AllSongsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type AllSongsQuery = (
-  { __typename?: 'Query' }
-  & { songs?: Maybe<Array<Maybe<(
-    { __typename?: 'Song' }
-    & Pick<Song, 'id' | 'title'>
-  )>>> }
-);
-
-
-export const AllSongsDocument = gql`
-    query allSongs {
-  songs {
-    id
-    title
-  }
-}
-    `;
-
-/**
- * __useAllSongsQuery__
- *
- * To run a query within a React component, call `useAllSongsQuery` and pass it any options that fit your needs.
- * When your component renders, `useAllSongsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useAllSongsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useAllSongsQuery(baseOptions?: Apollo.QueryHookOptions<AllSongsQuery, AllSongsQueryVariables>) {
-        return Apollo.useQuery<AllSongsQuery, AllSongsQueryVariables>(AllSongsDocument, baseOptions);
-      }
-export function useAllSongsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllSongsQuery, AllSongsQueryVariables>) {
-          return Apollo.useLazyQuery<AllSongsQuery, AllSongsQueryVariables>(AllSongsDocument, baseOptions);
-        }
-export type AllSongsQueryHookResult = ReturnType<typeof useAllSongsQuery>;
-export type AllSongsLazyQueryHookResult = ReturnType<typeof useAllSongsLazyQuery>;
-export type AllSongsQueryResult = Apollo.QueryResult<AllSongsQuery, AllSongsQueryVariables>;
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
 

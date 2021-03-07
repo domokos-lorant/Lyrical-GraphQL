@@ -5,7 +5,7 @@ import {
    InMemoryCache,
    ApolloProvider
 } from "@apollo/client";
-import SongList from './components/SongList';
+import SongList from './components/SongList/SongList';
 declare let module: any;
 
 const client = new ApolloClient({

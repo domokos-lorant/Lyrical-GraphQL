@@ -1,9 +1,10 @@
 import React from "react";
-// Todo: move operation generation closer.
-import { useAllSongsQuery, AllSongsQuery } from "../../../schema/__generated__/schema.all";
+import { useAllSongsQuery } from "./__generated__/songs.query.generated";
+import { SongFieldsFragment } from './__generated__/song.fragment.generated';
+import { Maybe } from "../../../../schema/__generated__/schema.all";
 
 export default function SongList(): JSX.Element {
-   const { loading, error, data } = useAllSongsQuery();
+   const { loading, error: _error, data } = useAllSongsQuery();
 
    return (
       <>
@@ -17,7 +18,7 @@ export default function SongList(): JSX.Element {
    );
 }
 
-function renderSongs(songs: AllSongsQuery["songs"]): JSX.Element[] {
+function renderSongs(songs: Maybe<Maybe<SongFieldsFragment>[]>): JSX.Element[] {
    return (songs || []).map(song => {
       return (
          <li key={song?.id} className="collection-item">

@@ -6,21 +6,15 @@
 
 module.exports = {
    schema: './schema/*.graphql',
-   documents: './client/src/graphql/*.graphql',
+   documents: './client/**/*.graphql',
    overwrite: true,
    generates: {
        './schema/__generated__/schema.all.tsx': {
            plugins: [
                'typescript',
-               'typescript-operations',
-               'typescript-react-apollo',
                'typescript-resolvers',
            ],
            config: {
-               skipTypename: false,
-               withHooks: true,
-               withHOC: false,
-               withComponent: false,
                noSchemaStitching: true,
                useIndexSignature: true,
                mappers: {
@@ -28,8 +22,27 @@ module.exports = {
                   Lyric: "../../server/models/lyric#LyricDocument",
                },
                //defaultMapper: "Partial<{T}>",
-               resolverTypeWrapperSignature: "Promise<T | undefined> | T | undefined"
+               resolverTypeWrapperSignature: "Promise<T | undefined> | T | undefined",
+               maybeValue: "T | null | undefined",
            },
+       },
+       './': {
+         preset: 'near-operation-file',
+         presetConfig: {
+            baseTypesPath: './schema/__generated__/schema.all.tsx',
+            folder: '__generated__',
+         },
+         plugins: [
+            'typescript-operations',
+            'typescript-react-apollo',
+        ],
+        config: {
+            skipTypename: false,
+            withHooks: true,
+            withHOC: false,
+            withComponent: false,
+            preResolveTypes: true,
+        }
        }
    },
 };

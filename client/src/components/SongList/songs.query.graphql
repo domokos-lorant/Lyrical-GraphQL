@@ -1,0 +1,6 @@
+# put your queries here
+query allSongs {
+   songs {
+      ...SongFields
+   }
+}

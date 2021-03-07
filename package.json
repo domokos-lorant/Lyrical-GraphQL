@@ -8,11 +8,11 @@
     "url": "https://github.com/StephenGrider/Lyrical-GraphQL"
   },
   "scripts": {
-   "build": "./node_modules/.bin/webpack",
-   "dev": "concurrently \"ts-node-dev index.ts --ignore client\" \"graphql-codegen --config codegen.js --watch\"",
-   "generate": "graphql-codegen --config codegen.js",
-   "predev": "npm run generate && npm run build"
- },
+    "build": "./node_modules/.bin/webpack",
+    "dev": "concurrently \"ts-node-dev index.ts --ignore client\" \"graphql-codegen --config codegen.js --watch\"",
+    "generate": "graphql-codegen --config codegen.js",
+    "predev": "npm run generate && npm run build"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.21.1",
+    "@graphql-codegen/near-operation-file-preset": "^1.17.13",
     "@graphql-codegen/typescript": "^1.21.0",
     "@graphql-codegen/typescript-operations": "^1.17.14",
     "@graphql-codegen/typescript-react-apollo": "^2.2.1",
