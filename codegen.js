@@ -9,7 +9,7 @@ module.exports = {
    documents: './client/**/*.graphql',
    overwrite: true,
    generates: {
-       './schema/__generated__/schema.all.tsx': {
+       './schema/__generated__/schema.all.ts': {
            plugins: [
                { 'typescript': { avoidOptionals: true } },
                { 'typescript-resolvers': { } },
