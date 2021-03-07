@@ -1,4 +1,4 @@
-import { MutationAddLyricToSongArgs, MutationAddSongArgs, MutationDeleteSongArgs, MutationLikeLyricArgs, QueryLyricArgs, QuerySongArgs, Resolvers } from '../schema/__generated__/schema.all';
+import { Maybe, MutationAddLyricToSongArgs, MutationAddSongArgs, MutationDeleteSongArgs, MutationLikeLyricArgs, QueryLyricArgs, QuerySongArgs, Resolvers } from '../schema/__generated__/schema.all';
 import { Lyric, Song } from './models';
 import { LyricDocument } from './models/lyric';
 import { SongAttributes, SongDocument } from './models/song';
@@ -18,7 +18,7 @@ const resolvers: Resolvers = {
       }
    },
    Song: {
-      async lyrics(parent: SongDocument) {
+      async lyrics(parent: SongDocument): Promise<Maybe<LyricDocument[]>> {
          return Song.findLyrics(parent?._id || "");
       },
    },

@@ -11,8 +11,8 @@ module.exports = {
    generates: {
        './schema/__generated__/schema.all.tsx': {
            plugins: [
-               'typescript',
-               'typescript-resolvers',
+               { 'typescript': { avoidOptionals: true } },
+               { 'typescript-resolvers': { } },
            ],
            config: {
                noSchemaStitching: true,

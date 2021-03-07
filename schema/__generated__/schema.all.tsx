@@ -17,23 +17,23 @@ export type Scalars = {
 
 export type Lyric = {
   __typename?: 'Lyric';
-  id?: Maybe<Scalars['ID']>;
-  likes?: Maybe<Scalars['Int']>;
-  content?: Maybe<Scalars['String']>;
-  song?: Maybe<Song>;
+  id: Maybe<Scalars['ID']>;
+  likes: Maybe<Scalars['Int']>;
+  content: Maybe<Scalars['String']>;
+  song: Maybe<Song>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addSong?: Maybe<Song>;
-  addLyricToSong?: Maybe<Song>;
-  likeLyric?: Maybe<Lyric>;
-  deleteSong?: Maybe<Song>;
+  addSong: Maybe<Song>;
+  addLyricToSong: Maybe<Song>;
+  likeLyric: Maybe<Lyric>;
+  deleteSong: Maybe<Song>;
 };
 
 
 export type MutationAddSongArgs = {
-  title?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
 };
 
 
@@ -54,9 +54,9 @@ export type MutationDeleteSongArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  songs?: Maybe<Array<Song>>;
-  song?: Maybe<Song>;
-  lyric?: Maybe<Lyric>;
+  songs: Maybe<Array<Song>>;
+  song: Maybe<Song>;
+  lyric: Maybe<Lyric>;
 };
 
 
@@ -71,9 +71,9 @@ export type QueryLyricArgs = {
 
 export type Song = {
   __typename?: 'Song';
-  id?: Maybe<Scalars['ID']>;
-  title?: Maybe<Scalars['String']>;
-  lyrics?: Maybe<Array<Lyric>>;
+  id: Maybe<Scalars['ID']>;
+  title: Maybe<Scalars['String']>;
+  lyrics: Maybe<Array<Lyric>>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -173,7 +173,7 @@ export type LyricResolvers<ContextType = any, ParentType extends ResolversParent
 }>;
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  addSong?: Resolver<Maybe<ResolversTypes['Song']>, ParentType, ContextType, RequireFields<MutationAddSongArgs, never>>;
+  addSong?: Resolver<Maybe<ResolversTypes['Song']>, ParentType, ContextType, RequireFields<MutationAddSongArgs, 'title'>>;
   addLyricToSong?: Resolver<Maybe<ResolversTypes['Song']>, ParentType, ContextType, RequireFields<MutationAddLyricToSongArgs, 'songId' | 'content'>>;
   likeLyric?: Resolver<Maybe<ResolversTypes['Lyric']>, ParentType, ContextType, RequireFields<MutationLikeLyricArgs, 'id'>>;
   deleteSong?: Resolver<Maybe<ResolversTypes['Song']>, ParentType, ContextType, RequireFields<MutationDeleteSongArgs, 'id'>>;
