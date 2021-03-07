@@ -7,10 +7,10 @@ import * as Apollo from '@apollo/client';
 export type AllSongsQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type AllSongsQuery = { __typename?: 'Query', songs?: Types.Maybe<Array<Types.Maybe<(
+export type AllSongsQuery = { __typename?: 'Query', songs?: Types.Maybe<Array<(
     { __typename?: 'Song' }
     & SongFieldsFragment
-  )>>> };
+  )>> };
 
 
 export const AllSongsDocument = gql`

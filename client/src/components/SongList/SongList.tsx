@@ -18,7 +18,7 @@ export default function SongList(): JSX.Element {
    );
 }
 
-function renderSongs(songs: Maybe<Maybe<SongFieldsFragment>[]>): JSX.Element[] {
+function renderSongs(songs: Maybe<SongFieldsFragment[]>): JSX.Element[] {
    return (songs || []).map(song => {
       return (
          <li key={song?.id} className="collection-item">

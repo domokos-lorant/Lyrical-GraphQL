@@ -54,7 +54,7 @@ export type MutationDeleteSongArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  songs?: Maybe<Array<Maybe<Song>>>;
+  songs?: Maybe<Array<Song>>;
   song?: Maybe<Song>;
   lyric?: Maybe<Lyric>;
 };
@@ -73,7 +73,7 @@ export type Song = {
   __typename?: 'Song';
   id?: Maybe<Scalars['ID']>;
   title?: Maybe<Scalars['String']>;
-  lyrics?: Maybe<Array<Maybe<Lyric>>>;
+  lyrics?: Maybe<Array<Lyric>>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -180,7 +180,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  songs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Song']>>>, ParentType, ContextType>;
+  songs?: Resolver<Maybe<Array<ResolversTypes['Song']>>, ParentType, ContextType>;
   song?: Resolver<Maybe<ResolversTypes['Song']>, ParentType, ContextType, RequireFields<QuerySongArgs, 'id'>>;
   lyric?: Resolver<Maybe<ResolversTypes['Lyric']>, ParentType, ContextType, RequireFields<QueryLyricArgs, 'id'>>;
 }>;
@@ -188,7 +188,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type SongResolvers<ContextType = any, ParentType extends ResolversParentTypes['Song'] = ResolversParentTypes['Song']> = ResolversObject<{
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  lyrics?: Resolver<Maybe<Array<Maybe<ResolversTypes['Lyric']>>>, ParentType, ContextType>;
+  lyrics?: Resolver<Maybe<Array<ResolversTypes['Lyric']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
