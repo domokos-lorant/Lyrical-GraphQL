@@ -1,11 +1,13 @@
-import React from "react";
-import { useAllSongsQuery } from "./__generated__/songs.query.generated";
+import React, { useCallback } from "react";
+import { AllSongsDocument, AllSongsQueryHookResult, useAllSongsQuery } from "./__generated__/songs.query.generated";
 import { SongFieldsFragment } from './__generated__/song.fragment.generated';
 import { Maybe } from "../../../../schema/__generated__/schema.all";
 import { Link } from "react-router";
+import { DeleteSongMutationHookResult, useDeleteSongMutation } from "./__generated__/deleteSong.mutation.generated";
 
 export default function SongList(): JSX.Element {
-   const { loading, error: _error, data } = useAllSongsQuery();
+   const { loading, error: _error, data, refetch } = useAllSongsQuery();
+   const [deleteSong] = useDeleteSongMutation();
 
    return (
       <>
@@ -13,7 +15,7 @@ export default function SongList(): JSX.Element {
             ? <div>Loading...</div>
             : <div>
                <ul className="collection">
-                  {renderSongs(data.songs)}
+                  {renderSongs(data.songs, deleteSong, refetch)}
                </ul>
                <Link
                   to="/songs/new"
@@ -26,12 +28,27 @@ export default function SongList(): JSX.Element {
    );
 }
 
-function renderSongs(songs: Maybe<SongFieldsFragment[]>): JSX.Element[] {
-   return (songs || []).map(song => {
+function renderSongs(
+   songs: Maybe<SongFieldsFragment[]>,
+   deleteSong: DeleteSongMutationHookResult[0],
+   refetch: AllSongsQueryHookResult["refetch"]): JSX.Element[] {
+   const onDelete = async (id: string): Promise<void> => {
+      await deleteSong({
+         variables: { id: id || "" },
+      });
+      refetch();
+   };
+
+   return (songs || []).map(({ id, title }) => {
       return (
-         <li key={song?.id} className="collection-item">
-            {song?.title}
-         </li>
+         <li key={id} className="collection-item" >
+            { title}
+            <i
+               className="material-icons"
+               onClick={() => onDelete(id || "")} >
+               delete
+            </i>
+         </li >
       );
    });
 }

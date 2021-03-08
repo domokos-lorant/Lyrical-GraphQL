@@ -41,7 +41,7 @@ const resolvers: Resolvers = {
       async likeLyric(_parent: {}, { id }: MutationLikeLyricArgs) {
          return Lyric.like(id);
       },
-      async deleteSong(parent: {}, { id }: MutationDeleteSongArgs) {
+      async deleteSong(_parent: {}, { id }: MutationDeleteSongArgs) {
          return Song.remove({ _id: id });
       }
    }

@@ -9,6 +9,7 @@ import SongList from './components/SongList/SongList';
 import { Router, hashHistory, Route, IndexRoute } from "react-router";
 import App from './components/App';
 import SongCreate from './components/SongCreate/SongCreate';
+import "../style/style.css";
 
 declare let module: any;
 
