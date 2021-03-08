@@ -2,6 +2,7 @@ import React from "react";
 import { useAllSongsQuery } from "./__generated__/songs.query.generated";
 import { SongFieldsFragment } from './__generated__/song.fragment.generated';
 import { Maybe } from "../../../../schema/__generated__/schema.all";
+import { Link } from "react-router";
 
 export default function SongList(): JSX.Element {
    const { loading, error: _error, data } = useAllSongsQuery();
@@ -10,9 +11,16 @@ export default function SongList(): JSX.Element {
       <>
          {loading || !data
             ? <div>Loading...</div>
-            : <ul className="collection">
-               {renderSongs(data.songs)}
-            </ul>
+            : <div>
+               <ul className="collection">
+                  {renderSongs(data.songs)}
+               </ul>
+               <Link
+                  to="/songs/new"
+                  className="btn-floating btn-large red right" >
+                  <i className="material-icons">add</i>
+               </Link>
+            </div>
          }
       </>
    );
