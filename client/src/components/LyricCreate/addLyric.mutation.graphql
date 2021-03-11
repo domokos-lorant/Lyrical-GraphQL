@@ -1,0 +1,8 @@
+mutation addLyric($songId: ID!, $content: String!) {
+  addLyricToSong(songId: $songId, content: $content) {
+    id,
+    lyrics {
+      content
+    }
+  }
+}

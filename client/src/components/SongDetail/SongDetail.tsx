@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
+import { LyricCreate } from "../LyricCreate/LyricCreate";
 import { useGetSongQuery } from "./__generated__/getSong.query.generated";
 
 type Props = {
@@ -16,6 +17,7 @@ export default function SongDetail({ params: { id } }: Props): JSX.Element {
                <div>
                   <Link to="/">Back</Link>
                   <h3>{data.song.title}</h3>
+                  <LyricCreate songId={id} />
                </div>
                : <div>Loading...</div>
          }
