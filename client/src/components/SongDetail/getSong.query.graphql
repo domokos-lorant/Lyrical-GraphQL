@@ -1,0 +1,6 @@
+query getSong ($id: ID!) {
+  song (id: $id) {
+    id
+    title
+  }
+}

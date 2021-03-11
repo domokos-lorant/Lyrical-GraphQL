@@ -11,18 +11,19 @@ export default function SongList(): JSX.Element {
 
    return (
       <>
-         {loading || !data
-            ? <div>Loading...</div>
-            : <div>
-               <ul className="collection">
-                  {renderSongs(data.songs, deleteSong, refetch)}
-               </ul>
-               <Link
-                  to="/songs/new"
-                  className="btn-floating btn-large red right" >
-                  <i className="material-icons">add</i>
-               </Link>
-            </div>
+         {
+            loading || !data
+               ? <div>Loading...</div>
+               : <div>
+                  <ul className="collection">
+                     {renderSongs(data.songs, deleteSong, refetch)}
+                  </ul>
+                  <Link
+                     to="/songs/new"
+                     className="btn-floating btn-large red right" >
+                     <i className="material-icons">add</i>
+                  </Link>
+               </div>
          }
       </>
    );
@@ -42,7 +43,7 @@ function renderSongs(
    return (songs || []).map(({ id, title }) => {
       return (
          <li key={id} className="collection-item" >
-            { title}
+            <Link to={`/songs/${id}`}>{title}</Link>
             <i
                className="material-icons"
                onClick={() => onDelete(id || "")} >
