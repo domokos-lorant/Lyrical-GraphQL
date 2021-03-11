@@ -1,13 +1,18 @@
 import * as Types from '../../../../../schema/__generated__/schema.all';
 
+import { LyricFieldsFragment } from './lyric.fragment.generated';
 import { gql } from '@apollo/client';
+import { LyricFieldsFragmentDoc } from './lyric.fragment.generated';
 import * as Apollo from '@apollo/client';
 export type GetSongQueryVariables = Types.Exact<{
   id: Types.Scalars['ID'];
 }>;
 
 
-export type GetSongQuery = { __typename?: 'Query', song?: Types.Maybe<{ __typename?: 'Song', id?: Types.Maybe<string>, title?: Types.Maybe<string> }> };
+export type GetSongQuery = { __typename?: 'Query', song?: Types.Maybe<{ __typename?: 'Song', id?: Types.Maybe<string>, title?: Types.Maybe<string>, lyrics?: Types.Maybe<Array<(
+      { __typename?: 'Lyric' }
+      & LyricFieldsFragment
+    )>> }> };
 
 
 export const GetSongDocument = gql`
@@ -15,9 +20,12 @@ export const GetSongDocument = gql`
   song(id: $id) {
     id
     title
+    lyrics {
+      ...LyricFields
+    }
   }
 }
-    `;
+    ${LyricFieldsFragmentDoc}`;
 
 /**
  * __useGetSongQuery__

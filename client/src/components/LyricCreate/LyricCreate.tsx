@@ -5,7 +5,7 @@ type Params = {
    songId: string;
 }
 
-export function LyricCreate({ songId }: Params): JSX.Element {
+export default function LyricCreate({ songId }: Params): JSX.Element {
    const [content, setContent] = useState("");
    const [addLyric] = useAddLyricMutation();
    const onContentChange = useCallback(
