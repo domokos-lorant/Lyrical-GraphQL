@@ -1,4 +1,5 @@
 fragment LyricFields on Lyric {
    id
    content
+   likes
 }

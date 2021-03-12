@@ -17,7 +17,7 @@ export type Scalars = {
 
 export type Lyric = {
   __typename?: 'Lyric';
-  id: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
   likes: Maybe<Scalars['Int']>;
   content: Maybe<Scalars['String']>;
   song: Maybe<Song>;
@@ -165,7 +165,7 @@ export type ResolversParentTypes = ResolversObject<{
 }>;
 
 export type LyricResolvers<ContextType = any, ParentType extends ResolversParentTypes['Lyric'] = ResolversParentTypes['Lyric']> = ResolversObject<{
-  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   likes?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   content?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   song?: Resolver<Maybe<ResolversTypes['Song']>, ParentType, ContextType>;

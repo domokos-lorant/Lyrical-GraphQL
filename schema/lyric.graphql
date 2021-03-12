@@ -1,5 +1,5 @@
 type Lyric {
-   id: ID
+   id: ID!
    likes: Int
    content: String
    song: Song
