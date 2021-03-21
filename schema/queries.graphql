@@ -2,4 +2,5 @@ type Query {
    songs: [Song!]
    song(id: ID!): Song
    lyric(id: ID!): Lyric
+   user: User
 }

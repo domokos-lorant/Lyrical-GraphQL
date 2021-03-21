@@ -31,6 +31,8 @@ export type Mutation = {
   likeLyric: Maybe<Lyric>;
   deleteSong: Maybe<Song>;
   signup: Maybe<User>;
+  login: Maybe<User>;
+  logout: Maybe<User>;
 };
 
 
@@ -60,11 +62,18 @@ export type MutationSignupArgs = {
   password: Scalars['String'];
 };
 
+
+export type MutationLoginArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   songs: Maybe<Array<Song>>;
   song: Maybe<Song>;
   lyric: Maybe<Lyric>;
+  user: Maybe<User>;
 };
 
 
@@ -193,12 +202,15 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   likeLyric?: Resolver<Maybe<ResolversTypes['Lyric']>, ParentType, ContextType, RequireFields<MutationLikeLyricArgs, 'id'>>;
   deleteSong?: Resolver<Maybe<ResolversTypes['Song']>, ParentType, ContextType, RequireFields<MutationDeleteSongArgs, 'id'>>;
   signup?: Resolver<Maybe<ResolversTypes['User']>, ParentType, LyricalPassportContext, RequireFields<MutationSignupArgs, 'email' | 'password'>>;
+  login?: Resolver<Maybe<ResolversTypes['User']>, ParentType, LyricalPassportContext, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
+  logout?: Resolver<Maybe<ResolversTypes['User']>, ParentType, LyricalPassportContext>;
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   songs?: Resolver<Maybe<Array<ResolversTypes['Song']>>, ParentType, ContextType>;
   song?: Resolver<Maybe<ResolversTypes['Song']>, ParentType, ContextType, RequireFields<QuerySongArgs, 'id'>>;
   lyric?: Resolver<Maybe<ResolversTypes['Lyric']>, ParentType, ContextType, RequireFields<QueryLyricArgs, 'id'>>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, LyricalPassportContext>;
 }>;
 
 export type SongResolvers<ContextType = any, ParentType extends ResolversParentTypes['Song'] = ResolversParentTypes['Song']> = ResolversObject<{

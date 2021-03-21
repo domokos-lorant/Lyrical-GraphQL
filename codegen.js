@@ -24,7 +24,12 @@ module.exports = {
                //defaultMapper: "Partial<{T}>",
                resolverTypeWrapperSignature: "Promise<T | undefined> | T | undefined",
                maybeValue: "T | null | undefined",
-               fieldContextTypes: ["Mutation.signup#../LyricalPassportContext#LyricalPassportContext"]
+               fieldContextTypes: [
+                  "Mutation.signup#../LyricalPassportContext#LyricalPassportContext",
+                  "Mutation.logout#../LyricalPassportContext#LyricalPassportContext",
+                  "Mutation.login#../LyricalPassportContext#LyricalPassportContext",
+                  "Query.user#../LyricalPassportContext#LyricalPassportContext",
+               ]
            },
        },
        './': {

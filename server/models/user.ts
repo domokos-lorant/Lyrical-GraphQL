@@ -7,10 +7,11 @@ const Schema = mongoose.Schema;
 export interface UserAttributes {
    email: string
    password: string;
-   comparePassword(candidatePassword: string, cb: (error: Error, isMatch: boolean) => void): void;
 }
 
-export interface UserDocument extends UserAttributes, Document<string> { }
+export interface UserDocument extends UserAttributes, Document<string> {
+   comparePassword(candidatePassword: string, cb: (error: Error, isMatch: boolean) => void): void;
+ }
 
 interface UserModel extends Model<UserDocument> { }
 

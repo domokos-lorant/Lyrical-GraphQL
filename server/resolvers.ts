@@ -1,10 +1,10 @@
 import { GraphQLResolveInfo } from 'graphql';
 import { LyricalPassportContext } from '../schema/LyricalPassportContext';
-import { Maybe, MutationAddLyricToSongArgs, MutationAddSongArgs, MutationDeleteSongArgs, MutationLikeLyricArgs, MutationSignupArgs, QueryLyricArgs, QuerySongArgs, Resolvers } from '../schema/__generated__/schema.all';
+import { Maybe, MutationAddLyricToSongArgs, MutationAddSongArgs, MutationDeleteSongArgs, MutationLikeLyricArgs, MutationLoginArgs, MutationSignupArgs, QueryLyricArgs, QuerySongArgs, Resolvers } from '../schema/__generated__/schema.all';
 import { Lyric, Song } from './models';
 import { LyricDocument } from './models/lyric';
-import { SongAttributes, SongDocument } from './models/song';
-import { signup } from './services/auth';
+import { SongDocument } from './models/song';
+import { login, signup } from './services/auth';
 
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves books from the "books" array above.
@@ -18,6 +18,10 @@ const resolvers: Resolvers = {
       },
       async lyric(parent: {}, { id }: QueryLyricArgs) {
          return Lyric.findById(id);
+      },
+      async user(_parent: {}, _args: {}, context: LyricalPassportContext) {
+         console.log(context.isAuthenticated());
+         return context.user;
       }
    },
    Song: {
@@ -49,7 +53,18 @@ const resolvers: Resolvers = {
       },
       async signup(_parent: {}, {email, password}: MutationSignupArgs, context: LyricalPassportContext) {
          return signup({email, password, context});
-      }
+      },
+      async logout(_parent: {}, _args: {}, context: LyricalPassportContext) {
+         const { user } = context;
+         //const user = context.getUser();
+         // console.log(JSON.stringify(user));
+         // console.log(JSON.stringify(context));
+         context.logout();
+         return user;
+      },
+      async login(_parent: {}, {email, password}: MutationLoginArgs, context: LyricalPassportContext) {
+         return login({email, password, context});
+      },
    }
 };
 
