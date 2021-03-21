@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import {
    ApolloClient,
    InMemoryCache,
-   ApolloProvider
+   ApolloProvider,
+   createHttpLink
 } from "@apollo/client";
 import SongList from './components/SongList/SongList';
 import { Router, hashHistory, Route, IndexRoute } from "react-router";
@@ -13,6 +14,12 @@ import "../style/style.css";
 import SongDetail from './components/SongDetail/SongDetail';
 
 declare let module: any;
+
+// Forward auth cookie
+const link = createHttpLink({
+   uri: '/graphql',
+   credentials: 'same-origin'
+});
 
 const client = new ApolloClient({
    uri: "http://localhost:4000/graphql",

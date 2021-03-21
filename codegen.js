@@ -20,6 +20,7 @@ module.exports = {
                mappers: {
                   Song: "../../server/models/song#SongDocument",
                   Lyric: "../../server/models/lyric#LyricDocument",
+                  User: "../../server/models/user#UserDocument",
                },
                //defaultMapper: "Partial<{T}>",
                resolverTypeWrapperSignature: "Promise<T | undefined> | T | undefined",

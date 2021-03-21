@@ -10,7 +10,7 @@ export type GetSongQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetSongQuery = { __typename?: 'Query', song?: Types.Maybe<{ __typename?: 'Song', id?: Types.Maybe<string>, title?: Types.Maybe<string>, lyrics?: Types.Maybe<Array<(
+export type GetSongQuery = { __typename?: 'Query', song?: Types.Maybe<{ __typename?: 'Song', id: string, title?: Types.Maybe<string>, lyrics?: Types.Maybe<Array<(
       { __typename?: 'Lyric' }
       & LyricFieldsFragment
     )>> }> };

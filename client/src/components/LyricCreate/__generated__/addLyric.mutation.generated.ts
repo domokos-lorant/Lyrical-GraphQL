@@ -9,7 +9,7 @@ export type AddLyricMutationVariables = Types.Exact<{
 }>;
 
 
-export type AddLyricMutation = { __typename?: 'Mutation', addLyricToSong?: Types.Maybe<{ __typename?: 'Song', id?: Types.Maybe<string>, lyrics?: Types.Maybe<Array<{ __typename?: 'Lyric', content?: Types.Maybe<string> }>> }> };
+export type AddLyricMutation = { __typename?: 'Mutation', addLyricToSong?: Types.Maybe<{ __typename?: 'Song', id: string, lyrics?: Types.Maybe<Array<{ __typename?: 'Lyric', content?: Types.Maybe<string> }>> }> };
 
 
 export const AddLyricDocument = gql`

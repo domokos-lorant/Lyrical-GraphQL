@@ -8,7 +8,7 @@ export type AddSongMutationVariables = Types.Exact<{
 }>;
 
 
-export type AddSongMutation = { __typename?: 'Mutation', addSong?: Types.Maybe<{ __typename?: 'Song', id?: Types.Maybe<string>, title?: Types.Maybe<string> }> };
+export type AddSongMutation = { __typename?: 'Mutation', addSong?: Types.Maybe<{ __typename?: 'Song', id: string, title?: Types.Maybe<string> }> };
 
 
 export const AddSongDocument = gql`

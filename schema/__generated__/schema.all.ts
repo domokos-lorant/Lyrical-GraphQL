@@ -1,6 +1,7 @@
 import { GraphQLResolveInfo } from 'graphql';
 import { SongDocument } from '../../server/models/song';
 import { LyricDocument } from '../../server/models/lyric';
+import { UserDocument } from '../../server/models/user';
 import { LyricalPassportContext } from '../LyricalPassportContext';
 export type Maybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -88,13 +89,14 @@ export type QueryLyricArgs = {
 
 export type Song = {
   __typename?: 'Song';
-  id: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
   title: Maybe<Scalars['String']>;
   lyrics: Maybe<Array<Lyric>>;
 };
 
 export type User = {
   __typename?: 'User';
+  id: Scalars['ID'];
   email: Maybe<Scalars['String']>;
 };
 
@@ -171,7 +173,7 @@ export type ResolversTypes = ResolversObject<{
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   Song: ResolverTypeWrapper<SongDocument>;
-  User: ResolverTypeWrapper<User>;
+  User: ResolverTypeWrapper<UserDocument>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 }>;
 
@@ -184,7 +186,7 @@ export type ResolversParentTypes = ResolversObject<{
   Mutation: {};
   Query: {};
   Song: SongDocument;
-  User: User;
+  User: UserDocument;
   Boolean: Scalars['Boolean'];
 }>;
 
@@ -214,13 +216,14 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 }>;
 
 export type SongResolvers<ContextType = any, ParentType extends ResolversParentTypes['Song'] = ResolversParentTypes['Song']> = ResolversObject<{
-  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   lyrics?: Resolver<Maybe<Array<ResolversTypes['Lyric']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;

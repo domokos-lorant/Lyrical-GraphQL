@@ -1,5 +1,5 @@
 type Song {
-   id: ID
+   id: ID!
    title: String
    lyrics: [Lyric!]
 }
