@@ -12,7 +12,7 @@ import session from 'express-session';
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import { buildContext } from 'graphql-passport';
-import {v4 as uuid} from "uuid";
+// import {v4 as uuid} from "uuid";
 import { initializePassport } from './services/auth';
 const webpackConfig = require('../webpack.config');
 
@@ -41,8 +41,9 @@ app.get('/', (req, res) => {
 // The cookie itself only contains the id of a session; more data about the session
 // is stored inside of MongoDB.
 app.use(session({
-   genid: (req) => uuid(),
-   cookie: {secure: false},
+   // Also not needed for auth to work.
+   //genid: (req) => uuid(),
+   //cookie: {secure: false},
    resave: true,
    saveUninitialized: true,
    secret: 'aaabbbccc',
@@ -64,13 +65,14 @@ app.use(passport.session());
 const server = new ApolloServer({
    schema,
    context: ({ req, res }) => buildContext({ req, res }),
-   playground: {
-      settings: {
-         'request.credentials': 'same-origin',
-      },
-   },
+   // Thought that this was needed for auth to work, but no.
+   // playground: {
+   //    settings: {
+   //       'request.credentials': 'same-origin',
+   //    },
+   // },
 });
-server.applyMiddleware({ app, cors: false });
+server.applyMiddleware({ app, /*cors: false - thought that this was needed for auth to work, but no*/ });
 
 // Other middleware.
 app.use(bodyParser.json());

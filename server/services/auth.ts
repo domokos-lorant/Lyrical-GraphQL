@@ -35,7 +35,7 @@ export function initializePassport(): void {
       email: string, 
       password: string, 
       done: (error: any, user?: any, options?: IVerifyOptions) => void) => {
-      console.log("Verify executing");
+      // console.log("Verify executing");
       User.findOne({ email: email.toLowerCase() }, null, null, (err, user) => {
          if (err) {
             return done(err);
@@ -51,7 +51,7 @@ export function initializePassport(): void {
             }
 
             if (isMatch) {
-               console.log("IsMatch");
+               // console.log("IsMatch");
                return done(null, user);
             }
 
@@ -59,7 +59,7 @@ export function initializePassport(): void {
          });
       });
    };
-   
+
    passport.use(new GraphQLLocalStrategy(verify as any));
 }
 
