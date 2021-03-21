@@ -20,9 +20,8 @@ const resolvers: Resolvers = {
          return Lyric.findById(id);
       },
       async user(_parent: {}, _args: {}, context: LyricalPassportContext) {
-         console.log(JSON.stringify(context.req.cookies));
-         console.log(context.isAuthenticated());
-         return context.user;
+         const user = context.getUser();
+         return user;
       }
    },
    Song: {
@@ -56,10 +55,7 @@ const resolvers: Resolvers = {
          return signup({email, password, context});
       },
       async logout(_parent: {}, _args: {}, context: LyricalPassportContext) {
-         const { user } = context;
-         //const user = context.getUser();
-         // console.log(JSON.stringify(user));
-         // console.log(JSON.stringify(context));
+         const user = context.getUser();
          context.logout();
          return user;
       },

@@ -11,10 +11,9 @@ import path from "path";
 import session from 'express-session';
 import MongoStore from "connect-mongo";
 import passport from "passport";
-import { User, UserDocument } from './models/user';
-import { GraphQLLocalStrategy, buildContext } from 'graphql-passport';
-import { IVerifyOptions, VerifyFunction } from 'passport-local';
+import { buildContext } from 'graphql-passport';
 import {v4 as uuid} from "uuid";
+import { initializePassport } from './services/auth';
 const webpackConfig = require('../webpack.config');
 
 // Configure Mongo.
@@ -29,60 +28,7 @@ mongoose.connection
     .once('open', () => console.log('Connected to MongoLab instance.'))
     .on('error', error => console.log('Error connecting to MongoLab:', error));
 
-// SerializeUser is used to provide some identifying token that can be saved
-// in the users session.  We traditionally use the 'ID' for this.
-passport.serializeUser<UserDocument, string>((user, done) => {
-   console.log(`Serializing ${JSON.stringify(user)}`);
-   done(null, user.id);
-});
-
-// The counterpart of 'serializeUser'.  Given only a user's ID, we must return
-// the user object.  This object is placed on 'req.user'.
-passport.deserializeUser((id, done) => {
-   console.log(`Deserializing ${id}`);
-   User.findById(id, null, null, (err, user) => {
-      console.log(`Deserialized user ${JSON.stringify(user)}`);
-      done(err, user);
-   });
-});
-
-// Instructs Passport how to authenticate a user using a locally saved email
-// and password combination.  This strategy is called whenever a user attempts to
-// log in.  We first find the user model in MongoDB that matches the submitted email,
-// then check to see if the provided password matches the saved password. There
-// are two obvious failure points here: the email might not exist in our DB or
-// the password might not match the saved one.  In either case, we call the 'done'
-// callback, including a string that messages why the authentication process failed.
-// This string is provided back to the GraphQL client.
-const verify: VerifyFunction = (
-   email: string, 
-   password: string, 
-   done: (error: any, user?: any, options?: IVerifyOptions) => void) => {
-   console.log("Verify executing");
-   User.findOne({ email: email.toLowerCase() }, null, null, (err, user) => {
-      if (err) {
-         return done(err);
-      }
-
-      if (!user) {
-         return done(null, false, { message: 'Invalid Credentials' });
-      }
-
-      user.comparePassword(password, (err, isMatch) => {
-         if (err) {
-            return done(err);
-         }
-
-         if (isMatch) {
-            console.log("IsMatch");
-            return done(null, user);
-         }
-
-         return done(null, false, { message: 'Invalid Credentials' });
-      });
-   });
-};
-passport.use(new GraphQLLocalStrategy(verify as any));
+initializePassport();
 
 const app = express();
 app.get('/', (req, res) => {
@@ -97,8 +43,8 @@ app.get('/', (req, res) => {
 app.use(session({
    genid: (req) => uuid(),
    cookie: {secure: false},
-   resave: false,
-   saveUninitialized: false,
+   resave: true,
+   saveUninitialized: true,
    secret: 'aaabbbccc',
    store: new MongoStore({
      mongoUrl: MONGO_URI,
@@ -120,11 +66,11 @@ const server = new ApolloServer({
    context: ({ req, res }) => buildContext({ req, res }),
    playground: {
       settings: {
-      'request.credentials': 'same-origin',
+         'request.credentials': 'same-origin',
       },
    },
 });
-server.applyMiddleware({ app });
+server.applyMiddleware({ app, cors: false });
 
 // Other middleware.
 app.use(bodyParser.json());
