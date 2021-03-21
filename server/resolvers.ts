@@ -20,6 +20,7 @@ const resolvers: Resolvers = {
          return Lyric.findById(id);
       },
       async user(_parent: {}, _args: {}, context: LyricalPassportContext) {
+         console.log(JSON.stringify(context.req.cookies));
          console.log(context.isAuthenticated());
          return context.user;
       }

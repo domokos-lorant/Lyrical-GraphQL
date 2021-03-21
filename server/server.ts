@@ -14,12 +14,8 @@ import passport from "passport";
 import { User, UserDocument } from './models/user';
 import { GraphQLLocalStrategy, buildContext } from 'graphql-passport';
 import { IVerifyOptions, VerifyFunction } from 'passport-local';
+import {v4 as uuid} from "uuid";
 const webpackConfig = require('../webpack.config');
-
-const app = express();
-app.get('/', (req, res) => {
-   res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
-});
 
 // Configure Mongo.
 if (!MONGO_URI) {
@@ -36,13 +32,16 @@ mongoose.connection
 // SerializeUser is used to provide some identifying token that can be saved
 // in the users session.  We traditionally use the 'ID' for this.
 passport.serializeUser<UserDocument, string>((user, done) => {
+   console.log(`Serializing ${JSON.stringify(user)}`);
    done(null, user.id);
 });
 
 // The counterpart of 'serializeUser'.  Given only a user's ID, we must return
 // the user object.  This object is placed on 'req.user'.
 passport.deserializeUser((id, done) => {
+   console.log(`Deserializing ${id}`);
    User.findById(id, null, null, (err, user) => {
+      console.log(`Deserialized user ${JSON.stringify(user)}`);
       done(err, user);
    });
 });
@@ -59,6 +58,7 @@ const verify: VerifyFunction = (
    email: string, 
    password: string, 
    done: (error: any, user?: any, options?: IVerifyOptions) => void) => {
+   console.log("Verify executing");
    User.findOne({ email: email.toLowerCase() }, null, null, (err, user) => {
       if (err) {
          return done(err);
@@ -74,6 +74,7 @@ const verify: VerifyFunction = (
          }
 
          if (isMatch) {
+            console.log("IsMatch");
             return done(null, user);
          }
 
@@ -83,14 +84,21 @@ const verify: VerifyFunction = (
 };
 passport.use(new GraphQLLocalStrategy(verify as any));
 
+const app = express();
+app.get('/', (req, res) => {
+   res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
+});
+
 // Configures express to use sessions.  This places an encrypted identifier
 // on the users cookie.  When a user makes a request, this middleware examines
 // the cookie and modifies the request object to indicate which user made the request
 // The cookie itself only contains the id of a session; more data about the session
 // is stored inside of MongoDB.
 app.use(session({
-   resave: true,
-   saveUninitialized: true,
+   genid: (req) => uuid(),
+   cookie: {secure: false},
+   resave: false,
+   saveUninitialized: false,
    secret: 'aaabbbccc',
    store: new MongoStore({
      mongoUrl: MONGO_URI,
@@ -109,7 +117,12 @@ app.use(passport.session());
 // Configure Apollo Server.
 const server = new ApolloServer({
    schema,
-   context: ({ req, res }) => buildContext({ req, res })
+   context: ({ req, res }) => buildContext({ req, res }),
+   playground: {
+      settings: {
+      'request.credentials': 'same-origin',
+      },
+   },
 });
 server.applyMiddleware({ app });
 
