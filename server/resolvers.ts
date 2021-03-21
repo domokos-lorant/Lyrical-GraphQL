@@ -1,4 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
+import { LyricalPassportContext } from '../schema/LyricalPassportContext';
 import { Maybe, MutationAddLyricToSongArgs, MutationAddSongArgs, MutationDeleteSongArgs, MutationLikeLyricArgs, MutationSignupArgs, QueryLyricArgs, QuerySongArgs, Resolvers } from '../schema/__generated__/schema.all';
 import { Lyric, Song } from './models';
 import { LyricDocument } from './models/lyric';
@@ -46,8 +47,8 @@ const resolvers: Resolvers = {
       async deleteSong(_parent: {}, { id }: MutationDeleteSongArgs) {
          return Song.remove({ _id: id });
       },
-      async signup(_parent: {}, {email, password}: MutationSignupArgs, context: any) {
-         return signup({email, password, req: context});
+      async signup(_parent: {}, {email, password}: MutationSignupArgs, context: LyricalPassportContext) {
+         return signup({email, password, context});
       }
    }
 };

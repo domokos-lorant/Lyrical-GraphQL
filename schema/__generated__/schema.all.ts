@@ -1,6 +1,7 @@
 import { GraphQLResolveInfo } from 'graphql';
 import { SongDocument } from '../../server/models/song';
 import { LyricDocument } from '../../server/models/lyric';
+import { LyricalPassportContext } from '../LyricalPassportContext';
 export type Maybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -191,7 +192,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addLyricToSong?: Resolver<Maybe<ResolversTypes['Song']>, ParentType, ContextType, RequireFields<MutationAddLyricToSongArgs, 'songId' | 'content'>>;
   likeLyric?: Resolver<Maybe<ResolversTypes['Lyric']>, ParentType, ContextType, RequireFields<MutationLikeLyricArgs, 'id'>>;
   deleteSong?: Resolver<Maybe<ResolversTypes['Song']>, ParentType, ContextType, RequireFields<MutationDeleteSongArgs, 'id'>>;
-  signup?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationSignupArgs, 'email' | 'password'>>;
+  signup?: Resolver<Maybe<ResolversTypes['User']>, ParentType, LyricalPassportContext, RequireFields<MutationSignupArgs, 'email' | 'password'>>;
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
