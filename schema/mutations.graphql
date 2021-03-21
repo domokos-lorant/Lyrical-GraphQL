@@ -3,4 +3,5 @@ type Mutation {
    addLyricToSong(songId: ID!, content: String!): Song
    likeLyric(id: ID!): Lyric
    deleteSong(id: ID!): Song
+   signup(email: String!, password: String!): User
 }

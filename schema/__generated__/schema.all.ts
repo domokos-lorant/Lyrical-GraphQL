@@ -29,6 +29,7 @@ export type Mutation = {
   addLyricToSong: Maybe<Song>;
   likeLyric: Maybe<Lyric>;
   deleteSong: Maybe<Song>;
+  signup: Maybe<User>;
 };
 
 
@@ -50,6 +51,12 @@ export type MutationLikeLyricArgs = {
 
 export type MutationDeleteSongArgs = {
   id: Scalars['ID'];
+};
+
+
+export type MutationSignupArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type Query = {
@@ -74,6 +81,11 @@ export type Song = {
   id: Maybe<Scalars['ID']>;
   title: Maybe<Scalars['String']>;
   lyrics: Maybe<Array<Lyric>>;
+};
+
+export type User = {
+  __typename?: 'User';
+  email: Maybe<Scalars['String']>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -149,6 +161,7 @@ export type ResolversTypes = ResolversObject<{
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   Song: ResolverTypeWrapper<SongDocument>;
+  User: ResolverTypeWrapper<User>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 }>;
 
@@ -161,6 +174,7 @@ export type ResolversParentTypes = ResolversObject<{
   Mutation: {};
   Query: {};
   Song: SongDocument;
+  User: User;
   Boolean: Scalars['Boolean'];
 }>;
 
@@ -177,6 +191,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addLyricToSong?: Resolver<Maybe<ResolversTypes['Song']>, ParentType, ContextType, RequireFields<MutationAddLyricToSongArgs, 'songId' | 'content'>>;
   likeLyric?: Resolver<Maybe<ResolversTypes['Lyric']>, ParentType, ContextType, RequireFields<MutationLikeLyricArgs, 'id'>>;
   deleteSong?: Resolver<Maybe<ResolversTypes['Song']>, ParentType, ContextType, RequireFields<MutationDeleteSongArgs, 'id'>>;
+  signup?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationSignupArgs, 'email' | 'password'>>;
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
@@ -192,11 +207,17 @@ export type SongResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type Resolvers<ContextType = any> = ResolversObject<{
   Lyric?: LyricResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Song?: SongResolvers<ContextType>;
+  User?: UserResolvers<ContextType>;
 }>;
 
 

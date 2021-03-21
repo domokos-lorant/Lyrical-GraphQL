@@ -4,6 +4,7 @@ import { LyricFieldsFragment } from './lyric.fragment.generated';
 import { gql } from '@apollo/client';
 import { LyricFieldsFragmentDoc } from './lyric.fragment.generated';
 import * as Apollo from '@apollo/client';
+const defaultOptions =  {}
 export type GetSongQueryVariables = Types.Exact<{
   id: Types.Scalars['ID'];
 }>;
@@ -44,10 +45,12 @@ export const GetSongDocument = gql`
  * });
  */
 export function useGetSongQuery(baseOptions: Apollo.QueryHookOptions<GetSongQuery, GetSongQueryVariables>) {
-        return Apollo.useQuery<GetSongQuery, GetSongQueryVariables>(GetSongDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSongQuery, GetSongQueryVariables>(GetSongDocument, options);
       }
 export function useGetSongLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSongQuery, GetSongQueryVariables>) {
-          return Apollo.useLazyQuery<GetSongQuery, GetSongQueryVariables>(GetSongDocument, baseOptions);
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSongQuery, GetSongQueryVariables>(GetSongDocument, options);
         }
 export type GetSongQueryHookResult = ReturnType<typeof useGetSongQuery>;
 export type GetSongLazyQueryHookResult = ReturnType<typeof useGetSongLazyQuery>;

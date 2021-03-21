@@ -2,6 +2,7 @@ import * as Types from '../../../../../schema/__generated__/schema.all';
 
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
+const defaultOptions =  {}
 export type AddSongMutationVariables = Types.Exact<{
   title: Types.Scalars['String'];
 }>;
@@ -38,7 +39,8 @@ export type AddSongMutationFn = Apollo.MutationFunction<AddSongMutation, AddSong
  * });
  */
 export function useAddSongMutation(baseOptions?: Apollo.MutationHookOptions<AddSongMutation, AddSongMutationVariables>) {
-        return Apollo.useMutation<AddSongMutation, AddSongMutationVariables>(AddSongDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddSongMutation, AddSongMutationVariables>(AddSongDocument, options);
       }
 export type AddSongMutationHookResult = ReturnType<typeof useAddSongMutation>;
 export type AddSongMutationResult = Apollo.MutationResult<AddSongMutation>;

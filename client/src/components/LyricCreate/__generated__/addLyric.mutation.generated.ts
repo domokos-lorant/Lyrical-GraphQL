@@ -2,6 +2,7 @@ import * as Types from '../../../../../schema/__generated__/schema.all';
 
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
+const defaultOptions =  {}
 export type AddLyricMutationVariables = Types.Exact<{
   songId: Types.Scalars['ID'];
   content: Types.Scalars['String'];
@@ -42,7 +43,8 @@ export type AddLyricMutationFn = Apollo.MutationFunction<AddLyricMutation, AddLy
  * });
  */
 export function useAddLyricMutation(baseOptions?: Apollo.MutationHookOptions<AddLyricMutation, AddLyricMutationVariables>) {
-        return Apollo.useMutation<AddLyricMutation, AddLyricMutationVariables>(AddLyricDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddLyricMutation, AddLyricMutationVariables>(AddLyricDocument, options);
       }
 export type AddLyricMutationHookResult = ReturnType<typeof useAddLyricMutation>;
 export type AddLyricMutationResult = Apollo.MutationResult<AddLyricMutation>;

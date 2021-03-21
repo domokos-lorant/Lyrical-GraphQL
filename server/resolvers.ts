@@ -1,7 +1,9 @@
-import { Maybe, MutationAddLyricToSongArgs, MutationAddSongArgs, MutationDeleteSongArgs, MutationLikeLyricArgs, QueryLyricArgs, QuerySongArgs, Resolvers } from '../schema/__generated__/schema.all';
+import { GraphQLResolveInfo } from 'graphql';
+import { Maybe, MutationAddLyricToSongArgs, MutationAddSongArgs, MutationDeleteSongArgs, MutationLikeLyricArgs, MutationSignupArgs, QueryLyricArgs, QuerySongArgs, Resolvers } from '../schema/__generated__/schema.all';
 import { Lyric, Song } from './models';
 import { LyricDocument } from './models/lyric';
 import { SongAttributes, SongDocument } from './models/song';
+import { signup } from './services/auth';
 
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves books from the "books" array above.
@@ -43,6 +45,9 @@ const resolvers: Resolvers = {
       },
       async deleteSong(_parent: {}, { id }: MutationDeleteSongArgs) {
          return Song.remove({ _id: id });
+      },
+      async signup(_parent: {}, {email, password}: MutationSignupArgs, context: any) {
+         return signup({email, password, req: context});
       }
    }
 };
