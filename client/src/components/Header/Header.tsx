@@ -1,16 +1,20 @@
 import React, { useCallback } from "react";
-import { Link } from "react-router";
+import { hashHistory, Link } from "react-router";
 import { useCurrentUserQuery } from "./__generated__/currentUser.query.generated";
 import { useLogoutMutation } from "./__generated__/logout.mutation.generated";
 
 export default function Header(): JSX.Element {
-   const { loading, error: _error, data, refetch } = useCurrentUserQuery();
+   const { loading, error: _error, data, refetch } = useCurrentUserQuery({
+      fetchPolicy: "network-only"
+   });
    const [logout] = useLogoutMutation();
    const user = data?.user;
+
    const onLogout = useCallback(async () => {
       await logout();
       await refetch();
-   }, [user]);
+      hashHistory.push("/login");
+   }, []);
 
    const renderButtons = useCallback(() => {
       return (
@@ -32,7 +36,7 @@ export default function Header(): JSX.Element {
             }
          </>
       );
-   }, [loading, user]);
+   }, [loading, data]);
 
    return (
       <nav>

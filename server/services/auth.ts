@@ -95,7 +95,7 @@ export async function login({ email, password, context }: AuthArgs) {
    const { user } = await context.authenticate("graphql-local", {email, password});
 
    if (!user) {
-      throw 'Invalid credentials.';
+      throw new Error('Invalid credentials.');
    }
 
    await context.login(user);

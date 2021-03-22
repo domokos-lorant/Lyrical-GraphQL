@@ -12,3 +12,8 @@
    display: flex;
    align-items: center;
 }
+
+.errors {
+   color: red;
+   margin-bottom: 1em;
+}

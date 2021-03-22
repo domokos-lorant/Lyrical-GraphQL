@@ -12,6 +12,8 @@ import App from './components/App';
 import SongCreate from './components/SongCreate/SongCreate';
 import "../style/style.css";
 import SongDetail from './components/SongDetail/SongDetail';
+import Login from './components/Login/Login';
+import Signup from './components/Signup/Signup';
 
 declare let module: any;
 
@@ -32,6 +34,8 @@ const Root = (): JSX.Element => {
          <Router history={hashHistory}>
             <Route path="/" component={App}>
                <IndexRoute component={SongList} />
+               <Route path="login" component={Login} />
+               <Route path="signup" component={Signup} />
                <Route path="songs/new" component={SongCreate} />
                <Route path="songs/:id" component={SongDetail} />
             </Route>
