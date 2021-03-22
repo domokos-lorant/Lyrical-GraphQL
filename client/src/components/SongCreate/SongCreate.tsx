@@ -1,9 +1,12 @@
 import React, { ChangeEvent, useCallback, useState, FormEvent } from "react";
 import { hashHistory, Link } from "react-router";
+import useRequireAuth from "../../hooks/useRequireAuth";
 import { AllSongsDocument } from "../SongList/__generated__/songs.query.generated";
 import { useAddSongMutation } from "./__generated__/addSong.mutation.generated";
 
 export default function SongCreate(): JSX.Element {
+   useRequireAuth();
+
    const [title, setTitle] = useState("");
    const [addSong] = useAddSongMutation();
    const onTitleChange = useCallback(

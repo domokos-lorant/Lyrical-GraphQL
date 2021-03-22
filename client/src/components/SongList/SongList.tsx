@@ -1,11 +1,14 @@
-import React, { useCallback } from "react";
-import { AllSongsDocument, AllSongsQueryHookResult, useAllSongsQuery } from "./__generated__/songs.query.generated";
+import React from "react";
+import { AllSongsQueryHookResult, useAllSongsQuery } from "./__generated__/songs.query.generated";
 import { SongFieldsFragment } from './__generated__/song.fragment.generated';
 import { Maybe } from "../../../../schema/__generated__/schema.all";
 import { Link } from "react-router";
 import { DeleteSongMutationHookResult, useDeleteSongMutation } from "./__generated__/deleteSong.mutation.generated";
+import useRequireAuth from "../../hooks/useRequireAuth";
 
 export default function SongList(): JSX.Element {
+   useRequireAuth();
+
    const { loading, error: _error, data, refetch } = useAllSongsQuery();
    const [deleteSong] = useDeleteSongMutation();
 
